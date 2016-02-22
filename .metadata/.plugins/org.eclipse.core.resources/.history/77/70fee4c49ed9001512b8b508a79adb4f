@@ -1,0 +1,24 @@
+package neustadt.mco243.microprocessor;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class RunMicroprocessor {
+
+	public static void main(String[] args) {
+		BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader("./mach.in"));
+
+			String nextLine = null;
+			while ((nextLine = reader.readLine()) != null) {
+				Microprocessor memory = new Microprocessor(nextLine);
+				//System.out.println(memory);
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}

@@ -1,0 +1,24 @@
+package microprocessorSimulation;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class RunMicroprocessor {
+
+	public static void main(String[] args) {
+		BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader("./mach.in.txt"));
+
+			String nextLine = null;
+			while ((nextLine = reader.readLine()) != null) {
+				Memory memory = new Memory(reader);
+			}
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+	}
+}

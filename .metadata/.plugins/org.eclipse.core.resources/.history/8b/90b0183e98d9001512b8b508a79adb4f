@@ -1,0 +1,31 @@
+package neustadt.mco243.microprocessor;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+
+public class Memory {
+
+	private char[] memory;
+
+	public Memory(BufferedReader reader) throws IOException {
+		memory = reader.readLine().toCharArray();
+	}
+
+	public Memory(String line) {
+		memory = line.toCharArray();
+	}
+
+	public int toHexadecimal(int index) {
+		return 0;
+	}
+
+	public int getAddress(int index) {
+
+		return index;
+
+	}
+
+	public String toString() {
+		return new String(memory);
+	}
+}
