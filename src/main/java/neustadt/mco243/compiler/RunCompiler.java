@@ -9,7 +9,8 @@ public class RunCompiler {
 	public static void main(String[] args) {
 
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader("./compilerin.txt"));
+			BufferedReader reader = new BufferedReader(new FileReader(
+					"./assemblyLanguage.txt"));
 			new Compiler(reader);
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -17,11 +17,13 @@ public class Compiler {
 			switch (split[0]) {
 			case "LD":
 				builder.append(0);
-				builder.append(Integer.toString(Integer.parseInt(split[1]), 16).toUpperCase());
+				String location = getLocation(split[1]);
+				builder.append(location);
 				break;
 			case "ST":
 				builder.append(1);
-				builder.append(Integer.toString(Integer.parseInt(split[1]), 16).toUpperCase());
+				location = getLocation(split[1]);
+				builder.append(location);
 				break;
 			case "SWP":
 				builder.append(2);
@@ -37,27 +39,33 @@ public class Compiler {
 				break;
 			case "BZ":
 				builder.append(6);
-				builder.append(Integer.toString(Integer.parseInt(split[1]), 16).toUpperCase());
+				location = getLocation(split[1]);
+				builder.append(location);
 				break;
 			case "BR":
 				builder.append(7);
-				builder.append(Integer.toString(Integer.parseInt(split[1]), 16).toUpperCase());
+				location = getLocation(split[1]);
+				builder.append(location);
 				break;
 			case "STP":
 				builder.append(8);
 				break;
 			case "DATA":
-				builder.append(reader.readLine());
+				builder.append(split[1]);
 				break;
 			}
 		}
-		// int length = 256 - builder.length();
-		// for(int i =0; i < length; i++){
-		// builder.append(0);
-		// }
 
 		System.out.println(builder.toString());
-		System.out.println(builder.length());
+	}
+
+	private String getLocation(String loc) {
+		String location = (String) Integer.toString(Integer.parseInt(loc), 16)
+				.toUpperCase();
+		if (location.length() == 2) {
+			return location;
+		}
+		return "0" + location;
 	}
 
 }
