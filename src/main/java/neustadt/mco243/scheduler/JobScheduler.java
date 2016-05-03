@@ -10,21 +10,23 @@ import java.util.Random;
 public class JobScheduler implements Runnable {
 
 	// max amount of time each job runs for
-	private final int TIME_SLICE = 10;
+	protected final int TIME_SLICE = 10;
 
 	// amount of time it takes to switch jobs
-	private final int OVERHEAD = 3;
+	protected final int OVERHEAD = 3;
 
-	private ArrayList<Job> jobs;
-	private Comparator<Job> comparator;
-	private static int totalTime = 0;
-	private static int numJobsCompleted = 0;
+	protected ArrayList<Job> jobs;
+	protected Comparator<Job> comparator;
+	protected static int totalTime;
+	protected static int numJobsCompleted;
 	private JobType jobType;
 	private static Random random = new Random();
 
 	public JobScheduler(ArrayList<Job> jobs, Comparator<Job> comparator) {
 		this.comparator = comparator;
 		this.jobs = jobs;
+		numJobsCompleted = 0;
+		totalTime = 0;
 	}
 
 	@Override
@@ -65,7 +67,7 @@ public class JobScheduler implements Runnable {
 		return actualTimeSlice;
 	}
 
-	private int computeActualTimeSlice(Job job, int timeLeftToRun) {
+	protected int computeActualTimeSlice(Job job, int timeLeftToRun) {
 		int actualTimeSlice;
 		if (job.getJobType() == JobType.IO) {
 			actualTimeSlice = Math.min(random.nextInt(TIME_SLICE), timeLeftToRun);
@@ -78,23 +80,27 @@ public class JobScheduler implements Runnable {
 	public static void main(String[] args) {
 		List<Job> jobs = Arrays.asList(
 
-		new Job("1", Priority.High, 50, JobType.Computation),
-		new Job("2", Priority.Low, 90, JobType.IO),
-		new Job("3",Priority.High, 10, JobType.Computation), 
-		new Job("4", Priority.Medium, 100, JobType.Computation),
-		new Job("5", Priority.Medium, 20, JobType.IO),
-		new Job("6", Priority.Low, 100, JobType.Computation),
-		new Job("7", Priority.Low, 10, JobType.IO), 
-		new Job("8", Priority.High, 40, JobType.Computation),
-		new Job("9", Priority.High, 50, JobType.Computation), 
-		new Job("10", Priority.Low, 60, JobType.IO),
-		new Job("11", Priority.Medium, 80, JobType.Computation), 
-		new Job("12", Priority.High, 70, JobType.IO));
+		new Job("1", Priority.High, 50, JobType.Computation, 5L),
+		new Job("2", Priority.Low, 90, JobType.IO, 45L),
+		new Job("3",Priority.High, 10, JobType.Computation, 3L), 
+		new Job("4", Priority.Medium, 100, JobType.Computation, 1L),
+		new Job("5", Priority.Medium, 20, JobType.IO, 67L),
+		new Job("6", Priority.Low, 100, JobType.Computation, 103L),
+		new Job("7", Priority.Low, 10, JobType.IO, 23L), 
+		new Job("8", Priority.High, 40, JobType.Computation, 44L),
+		new Job("9", Priority.High, 50, JobType.Computation, 51L), 
+		new Job("10", Priority.Low, 60, JobType.IO, 18L),
+		new Job("11", Priority.Medium, 80, JobType.Computation, 70L), 
+		new Job("12", Priority.High, 70, JobType.IO, 49L));
 		
 		JobScheduler scheduler = new JobScheduler(new ArrayList<Job>(jobs), new PriorityJobComparator());
 		scheduler.run();
 
-		System.out.println("NUM JOBS COMPLETED " + numJobsCompleted + " TOTAL TIME " + totalTime);
+		System.out.println("PriorityJobScheduler NUM JOBS COMPLETED " + numJobsCompleted + " TOTAL TIME " + totalTime);
+		
+		RoundRobbinScheduler roundRobbin = new RoundRobbinScheduler(new ArrayList<Job>(jobs));
+		roundRobbin.run();
+		System.out.println("RoundRobbinScheduler NUM JOBS COMPLETED " + numJobsCompleted + " TOTAL TIME " + totalTime);
 
 	}
 }

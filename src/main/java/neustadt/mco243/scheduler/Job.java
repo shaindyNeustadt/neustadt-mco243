@@ -8,15 +8,25 @@ public class Job {
 	private JobState state;
 	private int timeLeft;
 	private JobType jobType;
+	private Long deadline;
 
 	private long lastRanAtTime;
 
-	public Job(String name, Priority priority, int timeLeft, JobType jobType) {
+	public Job(String name, Priority priority, int timeLeft, JobType jobType, Long deadline) {
 		super();
 		this.jobType = jobType;
 		this.priority = priority;
 		this.name = name;
 		this.timeLeft = timeLeft;
+		this.deadline = deadline;
+	}
+
+	public Long getDeadline() {
+		return deadline;
+	}
+
+	public void setDeadline(Long deadline) {
+		this.deadline = deadline;
 	}
 
 	public JobType getJobType() {
@@ -59,7 +69,7 @@ public class Job {
 		this.state = state;
 	}
 
-	public int getTimeLeft() {
+	public Integer getTimeLeft() {
 		return timeLeft;
 	}
 
